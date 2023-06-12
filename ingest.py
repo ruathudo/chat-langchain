@@ -5,19 +5,11 @@ from langchain.document_loaders import ReadTheDocsLoader, UnstructuredHTMLLoader
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores.faiss import FAISS
+import pandas as pd
 
 
-urls = [
-    "https://thefcompany.com/",
-    "https://thefcompany.com/marketing-as-a-service",
-    "https://thefcompany.com/cases",
-    "https://thefcompany.com/about",
-    "https://thefcompany.com/careers",
-    "https://thefcompany.com/events/b2b-demand-generation-how-to-turn-marketing-into-a-revenue-driver",
-    "https://thefcompany.com/blog"
-]
 
-def ingest_docs():
+def ingest_docs(urls):
     """Get documents from web pages."""
     loader = UnstructuredURLLoader(urls=urls)
     # loader = ReadTheDocsLoader("langchain.readthedocs.io/en/latest/")
@@ -36,4 +28,10 @@ def ingest_docs():
 
 
 if __name__ == "__main__":
-    ingest_docs()
+    df = pd.read_csv('konecranes.csv')
+    urls = df.iloc[:50, 0].tolist()
+    #url2 = df.iloc[69:96, 0].tolist()
+
+    # urls = url1 + url2
+
+    ingest_docs(urls)
